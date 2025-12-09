@@ -1,207 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>موقع الفصل — صفحة بسيطة</title>
-  <style>
-    :root{--accent:#0b5ed7;--bg:#f7f9fc}
-    *{box-sizing:border-box;font-family:Arial,system-ui,-apple-system,'Segoe UI',Tahoma,'Noto Kufi Arabic',sans-serif}
-    body{background:var(--bg);margin:0;padding:20px}
-    .container{max-width:980px;margin:0 auto}
-    header{display:flex;gap:16px;align-items:center;justify-content:space-between}
-    header h1{margin:0;font-size:20px}
-    .card{background:white;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(20,30,60,0.06);margin-top:16px}
-    .flex{display:flex;gap:12px;align-items:center}
-    .cols{display:grid;grid-template-columns:1fr 320px;gap:14px}
-    input[type=text],textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid #e2e8f0}
-    button{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
-    .list{margin:0;padding:0;list-style:none}
-    .item{padding:10px;border-radius:8px;border:1px solid #eef2ff;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-    .small{font-size:13px;color:#556}
-    .muted{color:#7b8794}
-    .danger{background:#ffefef;color:#b32}
-    .chip{background:#eef6ff;color:#075; padding:6px 8px;border-radius:999px;font-size:13px}
-    footer{margin-top:20px;text-align:center;color:#667}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل حساب الطلاب والمدرسين</title>
+    <style>
+        /* CSS أساسي */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0077ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bbb;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 10px;
+            color: red;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>صفحة الفصل — موقع بسيط لتنظيم الفصل</h1>
-      <div class="flex">
-        <div class="chip" id="dateChip"></div>
-        <button id="clearAllBtn">مسح كل البيانات</button>
-      </div>
-    </header>
 
-    <div class="cols">
-      <main>
-        <section class="card">
-          <h2>الإعلانات</h2>
-          <form id="annForm" class="flex" style="margin-top:10px">
-            <input id="annText" type="text" placeholder="اكتب إعلان جديد..." required />
-            <button>نشر</button>
-          </form>
-          <ul id="annList" class="list" style="margin-top:12px"></ul>
-        </section>
+<div class="container">
+    <h2>إنشاء حساب</h2>
 
-        <section class="card">
-          <h2>المهام والواجبات</h2>
-          <form id="taskForm" style="margin-top:10px">
-            <input id="taskTitle" type="text" placeholder="عنوان المهمة" required />
-            <textarea id="taskDesc" rows="2" placeholder="تفاصيل المهمة (اختياري)"></textarea>
-            <div style="display:flex;gap:8px;margin-top:8px">
-              <input id="taskDue" type="text" placeholder="موعد التسليم (مثل: 2025-12-15)" />
-              <button type="submit">إضافة مهمة</button>
-            </div>
-          </form>
-          <ul id="taskList" class="list" style="margin-top:12px"></ul>
-        </section>
-      </main>
+    <label for="role">اختر الدور:</label>
+    <select id="role">
+        <option value="student">طالب</option>
+        <option value="teacher">مدرس</option>
+    </select>
 
-      <aside>
-        <section class="card">
-          <h3>أعضاء الفصل</h3>
-          <form id="memberForm" style="margin-top:10px">
-            <input id="memberName" type="text" placeholder="اسم العضو" required />
-            <button type="submit">إضافة</button>
-          </form>
-          <ul id="memberList" class="list" style="margin-top:12px"></ul>
-        </section>
-
-        <section class="card">
-          <h3>بحث سريع</h3>
-          <input id="quickSearch" type="text" placeholder="ابحث عن عضو أو مهمة أو إعلان" />
-          <p class="small muted">اكتب كلمة وسيتم تمييز النتائج المطابقة تلقائياً.</p>
-        </section>
-      </aside>
+    <div id="studentFields">
+        <input type="text" id="studentName" placeholder="الاسم">
+        <input type="text" id="studentSurname" placeholder="اللقب">
+        <input type="password" id="studentPassword" placeholder="كلمة السر (8 أحرف + رمز)">
     </div>
 
-    <footer>
-      نسخة بسيطة لتشغيل محلياً — احفظ الملف كـ index.html وافتحه في متصفحك.
-    </footer>
-  </div>
+    <div id="teacherFields" style="display:none;">
+        <input type="text" id="teacherName" placeholder="الاسم">
+        <input type="password" id="teacherPassword" placeholder="كلمة السر (8 أحرف + رمز)">
+    </div>
 
-  <script>
-    // ---------- بيانات افتراضية وتهيئة ----------
-    const STORAGE_KEY = 'class_page_v1';
-    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    <button id="registerBtn">تسجيل</button>
+    <p id="message"></p>
+</div>
 
-    const defaultState = { announcements: [], members: [], tasks: [] };
-    const appState = Object.assign({}, defaultState, state);
-
-    // عناصر الصفحة
-    const annForm = document.getElementById('annForm');
-    const annText = document.getElementById('annText');
-    const annList = document.getElementById('annList');
-
-    const memberForm = document.getElementById('memberForm');
-    const memberName = document.getElementById('memberName');
-    const memberList = document.getElementById('memberList');
-
-    const taskForm = document.getElementById('taskForm');
-    const taskTitle = document.getElementById('taskTitle');
-    const taskDesc = document.getElementById('taskDesc');
-    const taskDue = document.getElementById('taskDue');
-    const taskList = document.getElementById('taskList');
-
-    const quickSearch = document.getElementById('quickSearch');
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const dateChip = document.getElementById('dateChip');
-
-    dateChip.textContent = new Date().toLocaleDateString('ar-EG');
-
-    // ---------- وظائف مساعدة ----------
-    function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); }
-
-    function q(text){ return (text||'').toLowerCase(); }
-
-    // ---------- عرض العناصر ----------
-    function renderAnnouncements(filter=''){
-      annList.innerHTML='';
-      appState.announcements.slice().reverse().forEach((a,idx)=>{
-        const li = document.createElement('li'); li.className='item';
-        const left = document.createElement('div');
-        left.innerHTML = `<strong>${escapeHtml(a.text)}</strong><div class='small muted'>${a.date}</div>`;
-        const right = document.createElement('div');
-        const del = document.createElement('button'); del.textContent='حذف'; del.style.marginLeft='8px'; del.onclick = ()=>{ appState.announcements.splice(appState.announcements.length-1-idx,1); save(); renderAll(); };
-        right.appendChild(del);
-        li.appendChild(left); li.appendChild(right);
-        if(filter && !q(a.text).includes(q(filter))) li.style.display='none';
-        annList.appendChild(li);
-      });
-    }
-
-    function renderMembers(filter=''){
-      memberList.innerHTML='';
-      appState.members.forEach((m,i)=>{
-        const li = document.createElement('li'); li.className='item';
-        li.innerHTML = `<div><strong>${escapeHtml(m.name)}</strong><div class='small muted'>انضم ${m.date}</div></div>`;
-        const del = document.createElement('button'); del.textContent='حذف'; del.onclick=()=>{ appState.members.splice(i,1); save(); renderAll(); };
-        li.appendChild(del);
-        if(filter && !q(m.name).includes(q(filter))) li.style.display='none';
-        memberList.appendChild(li);
-      });
-    }
-
-    function renderTasks(filter=''){
-      taskList.innerHTML='';
-      appState.tasks.forEach((t,i)=>{
-        const li = document.createElement('li'); li.className='item';
-        const left = document.createElement('div');
-        left.innerHTML = `<div><input type='checkbox' ${t.done? 'checked' : ''} data-i='${i}' class='task-check' /> <strong>${escapeHtml(t.title)}</strong></div><div class='small muted'>${escapeHtml(t.desc || '')} ${t.due ? ' • تسليم: '+escapeHtml(t.due):''}</div>`;
-        const right = document.createElement('div');
-        const del = document.createElement('button'); del.textContent='حذف'; del.onclick=()=>{ appState.tasks.splice(i,1); save(); renderAll(); };
-        right.appendChild(del);
-        li.appendChild(left); li.appendChild(right);
-        if(filter && !(q(t.title).includes(q(filter)) || q(t.desc||'').includes(q(filter)))) li.style.display='none';
-        taskList.appendChild(li);
-      });
-      // event delegation for checkboxes
-      document.querySelectorAll('.task-check').forEach(cb=>{
-        cb.onchange = (e)=>{ const i = +e.target.dataset.i; appState.tasks[i].done = e.target.checked; save(); renderAll(); };
-      });
-    }
-
-    function renderAll(filter=''){
-      renderAnnouncements(filter);
-      renderMembers(filter);
-      renderTasks(filter);
-    }
-
-    // ---------- أحداث النماذج ----------
-    annForm.addEventListener('submit', e=>{
-      e.preventDefault();
-      const text = annText.value.trim(); if(!text) return;
-      appState.announcements.push({text, date: new Date().toLocaleString('ar-EG')});
-      annText.value=''; save(); renderAll(quickSearch.value);
+<script>
+    // JavaScript للتبديل بين الطالب والمدرس
+    document.getElementById("role").addEventListener("change", function() {
+        if(this.value === "student") {
+            document.getElementById("studentFields").style.display = "block";
+            document.getElementById("teacherFields").style.display = "none";
+        } else {
+            document.getElementById("studentFields").style.display = "none";
+            document.getElementById("teacherFields").style.display = "block";
+        }
     });
 
-    memberForm.addEventListener('submit', e=>{
-      e.preventDefault(); const name = memberName.value.trim(); if(!name) return;
-      appState.members.push({name, date: new Date().toLocaleDateString('ar-EG')});
-      memberName.value=''; save(); renderAll(quickSearch.value);
+    // JavaScript لتسجيل الحسابات
+    document.getElementById("registerBtn").addEventListener("click", function() {
+        const role = document.getElementById("role").value;
+        let message = "";
+
+        if(role === "student") {
+            const name = document.getElementById("studentName").value.trim();
+            const surname = document.getElementById("studentSurname").value.trim();
+            const password = document.getElementById("studentPassword").value;
+
+            if(!name || !surname) {
+                message = "يجب إدخال الاسم واللقب.";
+            } else if(password.length < 8 || !/[!@#$%^&*]/.test(password)) {
+                message = "كلمة السر للطالب يجب أن تحتوي على 8 أحرف على الأقل ورمز واحد على الأقل.";
+            } else {
+                let students = JSON.parse(localStorage.getItem("students") || "[]");
+                students.push({name, surname, password});
+                localStorage.setItem("students", JSON.stringify(students));
+                message = "تم تسجيل الطالب بنجاح!";
+            }
+
+        } else {
+            const name = document.getElementById("teacherName").value.trim();
+            const password = document.getElementById("teacherPassword").value;
+
+            if(!name) {
+                message = "يجب إدخال الاسم.";
+            } else if(password.length < 8 || !/[!@#$%^&*]/.test(password)) {
+                message = "كلمة السر للمدرس يجب أن تحتوي على 8 أحرف على الأقل ورمز واحد على الأقل.";
+            } else {
+                let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
+                teachers.push({name, password});
+                localStorage.setItem("teachers", JSON.stringify(teachers));
+                message = "تم تسجيل المدرس بنجاح!";
+            }
+        }
+
+        document.getElementById("message").textContent = message;
     });
+</script>
 
-    taskForm.addEventListener('submit', e=>{
-      e.preventDefault(); const title = taskTitle.value.trim(); if(!title) return;
-      appState.tasks.push({title, desc: taskDesc.value.trim(), due: taskDue.value.trim(), done:false});
-      taskTitle.value=''; taskDesc.value=''; taskDue.value=''; save(); renderAll(quickSearch.value);
-    });
-
-    quickSearch.addEventListener('input', e=>{ renderAll(e.target.value); });
-
-    clearAllBtn.addEventListener('click', ()=>{
-      if(!confirm('هل أنت متأكد إنك عايز تمسح كل البيانات من الصفحة؟')) return;
-      appState.announcements=[]; appState.members=[]; appState.tasks=[]; save(); renderAll();
-    });
-
-    // ---------- أدوات صغيرة ----------
-    function escapeHtml(str){ return (str||'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
-
-    // ---------- بداية التشغيل ----------
-    renderAll();
-  </script>
 </body>
 </html>
