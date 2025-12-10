@@ -1,142 +1,494 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل حساب الطلاب والمدرسين</title>
-    <style>
-        /* CSS أساسي */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>فصل اولى سابع من اعداد ياسين</title>
+<style>
+  :root{
+    --primary:#6a11cb;
+    --primary-dark:#2575fc;
+    --accent:#ffd873;
+    --me-bg:#e8f0ff;
+    --other-bg:#fff6ea;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(120deg,var(--primary),var(--primary-dark));
+    min-height:100vh;
+    color:#222;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-bottom:80px;
+  }
 
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            width: 350px;
-        }
+  .card{
+    background:rgba(255,255,255,0.96);
+    width:92%;
+    max-width:980px;
+    border-radius:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.2);
+    padding:18px;
+    margin:18px 0;
+  }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+  /* Register area */
+  #registerArea{max-width:420px}
+  label{display:block;margin:6px 0;font-weight:bold}
+  input, select, button{width:100%;padding:10px;border-radius:8px;border:1px solid #bbb;font-size:15px}
+  button{background:var(--primary);color:#fff;border:none;cursor:pointer;font-weight:bold}
+  button:hover{background:var(--primary-dark)}
+  .small-link{text-align:center;margin-top:8px;color:var(--primary-dark);cursor:pointer;text-decoration:underline}
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
+  #msg{color:#b00020;font-weight:bold;text-align:center;margin-top:8px}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #0077ff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+  /* Dashboard layout */
+  #dashboard{display:none}
+  .dashboard-top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .profile{
+    display:flex;gap:12px;align-items:center;
+  }
+  .avatar{
+    width:56px;height:56px;border-radius:50%;background:#ddd;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;color:#444;
+    overflow:hidden;border:2px solid rgba(0,0,0,0.06)
+  }
+  .upload-btn{margin-top:8px;padding:8px;border-radius:8px;background:var(--accent);border:none;cursor:pointer}
 
-        button:hover {
-            background-color: #005bbb;
-        }
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:18px;
+    margin-top:16px;
+  }
 
-        #message {
-            text-align: center;
-            margin-top: 10px;
-            color: red;
-        }
-    </style>
+  /* CHAT */
+  .chat-box{display:flex;flex-direction:column;height:420px}
+  #chatWindow{flex:1;padding:12px;border-radius:8px;background:#fafafa;border:1px solid #eee;overflow:auto}
+  .chat-row{display:flex;margin:8px 0;max-width:85%;}
+  .chat-row.me{margin-left:auto;justify-content:flex-end}
+  .bubble{
+    padding:10px 12px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.06);font-size:14px;word-break:break-word;
+  }
+  .bubble.me{background:var(--me-bg);align-self:flex-end;border-top-right-radius:4px}
+  .bubble.other{background:var(--other-bg);align-self:flex-start;border-top-left-radius:4px}
+  .meta{font-size:12px;color:#666;margin-top:6px}
+
+  .chat-controls{display:flex;gap:8px;margin-top:10px}
+  .chat-controls input{flex:1}
+
+  /* Students list */
+  .students-list{max-height:420px;overflow:auto;padding:6px}
+  .student-item{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid #f0f0f0}
+  .student-item .name{font-weight:bold}
+  .controls{display:flex;gap:6px}
+  .ctrl-btn{padding:6px 8px;border-radius:6px;border:none;cursor:pointer;font-size:13px}
+  .mute{background:#ffc107}
+  .ban{background:#ff6b6b;color:#fff}
+  .unmute{background:#7dd3fc}
+
+  /* schedule */
+  table{width:100%;border-collapse:collapse}
+  th,td{border:1px solid #e6e6e6;padding:8px;text-align:center}
+
+  footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(0,0,0,0.35);color:#fff;display:flex;justify-content:space-between;font-weight:bold}
+  .hidden{display:none}
+  @media(max-width:880px){.grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h2>إنشاء حساب</h2>
+<!-- REGISTER / LOGIN -->
+<div class="card" id="registerArea">
+  <h2 style="text-align:center;margin:6px 0">تسجيل حساب جديد</h2>
 
-    <label for="role">اختر الدور:</label>
-    <select id="role">
-        <option value="student">طالب</option>
-        <option value="teacher">مدرس</option>
-    </select>
+  <label for="role">الدور</label>
+  <select id="role">
+    <option value="student">طالب</option>
+    <option value="teacher">مدرس</option>
+  </select>
 
-    <div id="studentFields">
-        <input type="text" id="studentName" placeholder="الاسم">
-        <input type="text" id="studentSurname" placeholder="اللقب">
-        <input type="password" id="studentPassword" placeholder="كلمة السر (8 أحرف + رمز)">
-    </div>
+  <label for="name">الاسم</label>
+  <input id="name" placeholder="الاسم">
 
-    <div id="teacherFields" style="display:none;">
-        <input type="text" id="teacherName" placeholder="الاسم">
-        <input type="password" id="teacherPassword" placeholder="كلمة السر (8 أحرف + رمز)">
-    </div>
+  <label id="surnameLabel" for="surname">اللقب</label>
+  <input id="surname" placeholder="اللقب">
 
-    <button id="registerBtn">تسجيل</button>
-    <p id="message"></p>
+  <label for="password">كلمة المرور</label>
+  <input id="password" type="password" placeholder="8 أحرف على الأقل + رمز">
+
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button id="actionBtn">تسجيل حساب جديد</button>
+    <input id="avatarFile" type="file" accept="image/*" class="hidden">
+  </div>
+
+  <div id="msg"></div>
+  <div class="small-link" id="toggleLink">تسجيل دخول</div>
 </div>
 
+<!-- DASHBOARD -->
+<div id="dashboard" class="card">
+  <div class="dashboard-top">
+    <div class="profile">
+      <div class="avatar" id="myAvatar">ص</div>
+      <div>
+        <div id="welcome" style="font-weight:bold"></div>
+        <div style="font-size:13px;color:#666" id="roleLabel"></div>
+        <div>
+          <button class="upload-btn" id="changeAvatarBtn">تغيير الصورة</button>
+          <input type="file" id="avatarUpload" accept="image/*" class="hidden">
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:right">
+      <div style="font-size:14px;color:#333;font-weight:bold">لوحة تحكم الفصل</div>
+      <div style="font-size:13px;color:#555">شات، قائمة الطلاب، وجدول الحصص</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- main chat + schedule -->
+    <div>
+      <div class="chat-box card" style="padding:14px">
+        <h3 style="margin:0 0 8px 0">شات الطلاب</h3>
+        <div id="chatWindow" style="background:#fff;padding:10px;border-radius:8px;border:1px solid #eee;height:300px;overflow:auto"></div>
+
+        <div class="chat-controls">
+          <input id="chatInput" placeholder="اكتب رسالة..." />
+          <button id="sendBtn">إرسال</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:12px">
+        <h3 style="margin:0 0 8px 0">جدول الفصل</h3>
+        <table>
+          <thead><tr><th>اليوم</th><th>المادة</th></tr></thead>
+          <tbody id="scheduleBody">
+            <tr><td>السبت</td><td>رياضيات</td></tr>
+            <tr><td>الأحد</td><td>لغة عربية</td></tr>
+            <tr><td>الاثنين</td><td>علوم</td></tr>
+            <tr><td>الثلاثاء</td><td>تاريخ</td></tr>
+            <tr><td>الأربعاء</td><td>لغة إنجليزية</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- students list & admin controls -->
+    <div>
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">قائمة طلاب الفصل</h3>
+        <div class="students-list" id="studentsList"></div>
+      </div>
+
+      <div class="card" style="margin-top:12px" id="adminPanel" class="hidden">
+        <h3 style="margin:0 0 8px 0">لوحة الأدمن (صاحب الموقع)</h3>
+        <div style="font-size:13px;color:#444">هنا تقدر تعمل ميوت أو حظر لأي مستخدم.</div>
+        <div style="margin-top:10px">
+          <label>اسم الهدف (للطالب: اكتب "الاسم اللقب")</label>
+          <input id="adminTarget" placeholder="مثال: محمد علي">
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="ctrl-btn mute" id="adminMute">ميوت</button>
+            <button class="ctrl-btn unmute" id="adminUnmute">فك الميوت</button>
+            <button class="ctrl-btn ban" id="adminBan">حظر</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>الجروب الرسمي لفصل 1/7 أولى سابع</span>
+  <span>تم إنشاؤه بواسطة ياسين محمد</span>
+</footer>
+
 <script>
-    // JavaScript للتبديل بين الطالب والمدرس
-    document.getElementById("role").addEventListener("change", function() {
-        if(this.value === "student") {
-            document.getElementById("studentFields").style.display = "block";
-            document.getElementById("teacherFields").style.display = "none";
-        } else {
-            document.getElementById("studentFields").style.display = "none";
-            document.getElementById("teacherFields").style.display = "block";
-        }
+/* ======= IMPORTANT =======
+ * غيّر العنوان ده إلى رابط السيرفر اللي هتعمله (Render/Heroku/Replit)
+ * أثناء الاختبار المحلي استخدم: "http://localhost:5000"
+ */
+const SERVER_URL = "http://localhost:5000";
+
+/* عناصر الواجهة */
+const roleEl = document.getElementById('role');
+const nameEl = document.getElementById('name');
+const surnameEl = document.getElementById('surname');
+const passwordEl = document.getElementById('password');
+const actionBtn = document.getElementById('actionBtn');
+const msgEl = document.getElementById('msg');
+const toggleLink = document.getElementById('toggleLink');
+const avatarFile = document.getElementById('avatarFile');
+
+const registerArea = document.getElementById('registerArea');
+const dashboard = document.getElementById('dashboard');
+const chatWindow = document.getElementById('chatWindow');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const studentsListDiv = document.getElementById('studentsList');
+const myAvatar = document.getElementById('myAvatar');
+const welcome = document.getElementById('welcome');
+const roleLabel = document.getElementById('roleLabel');
+const adminPanel = document.getElementById('adminPanel');
+const adminTarget = document.getElementById('adminTarget');
+const adminMute = document.getElementById('adminMute');
+const adminUnmute = document.getElementById('adminUnmute');
+const adminBan = document.getElementById('adminBan');
+const avatarUpload = document.getElementById('avatarUpload');
+const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+
+let mode = 'register'; // or 'login'
+let currentUser = null; // {role,name,surname,password,avatar,...}
+
+/* toggle register/login */
+toggleLink.addEventListener('click', e=>{
+  if(mode === 'register'){
+    mode = 'login';
+    actionBtn.textContent = 'تسجيل الدخول';
+    toggleLink.textContent = 'إنشاء حساب جديد';
+    document.querySelector('#registerArea h2').textContent = 'تسجيل دخول';
+    // hide surname for teachers toggle logic remains
+  } else {
+    mode = 'register';
+    actionBtn.textContent = 'تسجيل حساب جديد';
+    toggleLink.textContent = 'تسجيل دخول';
+    document.querySelector('#registerArea h2').textContent = 'تسجيل حساب جديد';
+  }
+  msgEl.textContent = '';
+});
+
+/* hide/show surname when role changes */
+roleEl.addEventListener('change', ()=>{
+  if(roleEl.value === 'teacher'){
+    surnameEl.style.display = 'none';
+    document.getElementById('surnameLabel').style.display = 'none';
+  } else {
+    surnameEl.style.display = 'block';
+    document.getElementById('surnameLabel').style.display = 'block';
+  }
+});
+
+/* helper: show message */
+function showMsg(txt, color='#b00020'){
+  msgEl.textContent = txt; msgEl.style.color = color;
+}
+
+/* helper: render students list */
+async function loadStudents(){
+  try{
+    const res = await fetch(`${SERVER_URL}/students`);
+    const data = await res.json();
+    studentsListDiv.innerHTML = '';
+    const all = (data.students||[]).concat((data.teachers||[]).map(t=>({name:t.name,surname:'',isTeacher:true})));
+    all.forEach(u=>{
+      const el = document.createElement('div');
+      el.className = 'student-item';
+      el.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="avatar" style="width:44px;height:44px">${(u.name||'')[0]||'ص'}</div>
+          <div>
+            <div class="name">${u.name} ${u.surname||''}</div>
+          </div>
+        </div>
+      `;
+      studentsListDiv.appendChild(el);
     });
+  }catch(err){
+    console.error(err);
+  }
+}
 
-    // JavaScript لتسجيل الحسابات
-    document.getElementById("registerBtn").addEventListener("click", function() {
-        const role = document.getElementById("role").value;
-        let message = "";
+/* action: register or login */
+actionBtn.addEventListener('click', async ()=>{
+  const role = roleEl.value;
+  const name = nameEl.value.trim();
+  const surname = surnameEl.value.trim();
+  const password = passwordEl.value;
 
-        if(role === "student") {
-            const name = document.getElementById("studentName").value.trim();
-            const surname = document.getElementById("studentSurname").value.trim();
-            const password = document.getElementById("studentPassword").value;
+  if(mode === 'register'){
+    // client checks
+    if(!name){ showMsg('يجب إدخال الاسم'); return; }
+    if(role==='student' && !surname){ showMsg('يجب إدخال اللقب'); return; }
+    if(!password || password.length < 8 || !/[!@#$%^&*]/.test(password)){ showMsg('كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي رمز واحد'); return; }
 
-            if(!name || !surname) {
-                message = "يجب إدخال الاسم واللقب.";
-            } else if(password.length < 8 || !/[!@#$%^&*]/.test(password)) {
-                message = "كلمة السر للطالب يجب أن تحتوي على 8 أحرف على الأقل ورمز واحد على الأقل.";
-            } else {
-                let students = JSON.parse(localStorage.getItem("students") || "[]");
-                students.push({name, surname, password});
-                localStorage.setItem("students", JSON.stringify(students));
-                message = "تم تسجيل الطالب بنجاح!";
-            }
+    // call server
+    try{
+      const res = await fetch(`${SERVER_URL}/register`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({role, name, surname, password})
+      });
+      const data = await res.json();
+      if(data.error){ showMsg(data.error); return; }
+      showMsg('تم التسجيل بنجاح! تسجيل دخول الآن...', '#0a7b00');
+      // auto-login
+      setTimeout(()=> loginAfterRegister(role, name, surname, password), 800);
+    }catch(e){ showMsg('خطأ في الاتصال بالسيرفر'); console.error(e) }
 
-        } else {
-            const name = document.getElementById("teacherName").value.trim();
-            const password = document.getElementById("teacherPassword").value;
+  } else {
+    // login
+    if(!name){ showMsg('يجب إدخال الاسم'); return; }
+    if(!password){ showMsg('يجب إدخال كلمة السر'); return; }
+    try{
+      const res = await fetch(`${SERVER_URL}/login`, {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({role, name, surname, password})
+      });
+      const data = await res.json();
+      if(data.error){ showMsg(data.error); return; }
+      currentUser = {role, ...data.user};
+      showMsg('تم تسجيل الدخول!', '#0a7b00');
+      enterDashboard();
+    }catch(e){ showMsg('خطأ في الاتصال بالسيرفر'); console.error(e) }
+  }
+});
 
-            if(!name) {
-                message = "يجب إدخال الاسم.";
-            } else if(password.length < 8 || !/[!@#$%^&*]/.test(password)) {
-                message = "كلمة السر للمدرس يجب أن تحتوي على 8 أحرف على الأقل ورمز واحد على الأقل.";
-            } else {
-                let teachers = JSON.parse(localStorage.getItem("teachers") || "[]");
-                teachers.push({name, password});
-                localStorage.setItem("teachers", JSON.stringify(teachers));
-                message = "تم تسجيل المدرس بنجاح!";
-            }
-        }
-
-        document.getElementById("message").textContent = message;
+/* helper: loginAfterRegister (we attempt login immediately after reg) */
+async function loginAfterRegister(role, name, surname, password){
+  try{
+    const res = await fetch(`${SERVER_URL}/login`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({role, name, surname, password})
     });
+    const data = await res.json();
+    if(data.error){ showMsg('تم التسجيل لكن حدث خطأ في تسجيل الدخول: '+data.error); return; }
+    currentUser = {role, ...data.user};
+    enterDashboard();
+  }catch(e){ showMsg('خطأ في تسجيل الدخول التلقائي'); console.error(e) }
+}
+
+/* Enter dashboard (after login) */
+async function enterDashboard(){
+  registerArea.style.display = 'none';
+  dashboard.style.display = 'block';
+  welcome.textContent = `مرحباً، ${currentUser.name} ${currentUser.surname||''}`;
+  roleLabel.textContent = currentUser.role === 'student' ? 'طالب' : 'مدرس';
+
+  // show avatar if present
+  if(currentUser.avatar){
+    myAvatar.style.backgroundImage = `url(${SERVER_URL}/uploads/${currentUser.avatar})`;
+    myAvatar.style.backgroundSize = 'cover';
+    myAvatar.textContent = '';
+  } else {
+    myAvatar.textContent = (currentUser.name||'ص')[0];
+  }
+
+  // show admin panel only for owner name
+  const ownerName = "ياسين محمد محمد عبدالمجيد";
+  if(currentUser.name + (currentUser.surname ? ' ' + currentUser.surname : '') === ownerName){
+    adminPanel.style.display = 'block';
+  } else adminPanel.style.display = 'none';
+
+  await loadStudents();
+  await loadMessages();
+  // start polling messages every 2.5s
+  if(window._pollInterval) clearInterval(window._pollInterval);
+  window._pollInterval = setInterval(loadMessages, 2500);
+}
+
+/* upload avatar (client -> server) */
+changeAvatarBtn.addEventListener('click', ()=> avatarUpload.click());
+avatarUpload.addEventListener('change', async (e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const fd = new FormData();
+  fd.append('avatar', f);
+  fd.append('role', currentUser.role);
+  fd.append('name', currentUser.name);
+  fd.append('surname', currentUser.surname || '');
+  try{
+    const res = await fetch(`${SERVER_URL}/upload-avatar`, { method:'POST', body: fd });
+    const data = await res.json();
+    if(data.error) { alert(data.error); return; }
+    // update avatar display and currentUser
+    myAvatar.style.backgroundImage = `url(${SERVER_URL}/uploads/${data.avatar})`;
+    myAvatar.style.backgroundSize = 'cover';
+    myAvatar.textContent = '';
+    currentUser.avatar = data.avatar;
+  }catch(e){ console.error(e); alert('خطأ في رفع الصورة') }
+});
+
+/* CHAT send */
+sendBtn.addEventListener('click', sendMessage);
+chatInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendMessage(); });
+
+async function sendMessage(){
+  const text = chatInput.value.trim(); if(!text) return;
+  // call API
+  try{
+    const res = await fetch(`${SERVER_URL}/messages`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        role: currentUser.role,
+        name: currentUser.name,
+        surname: currentUser.surname || '',
+        message: text
+      })
+    });
+    const data = await res.json();
+    if(data.error){ alert(data.error); return; }
+    chatInput.value = '';
+    await loadMessages();
+  }catch(e){ console.error(e); alert('خطأ في إرسال الرسالة') }
+}
+
+/* load messages and render with styles (me vs others) */
+async function loadMessages(){
+  try{
+    const res = await fetch(`${SERVER_URL}/messages`);
+    const arr = await res.json();
+    chatWindow.innerHTML = '';
+    arr.forEach(msg=>{
+      const row = document.createElement('div');
+      const isMe = msg.name === currentUser.name && (msg.surname||'') === (currentUser.surname||'');
+      row.className = 'chat-row ' + (isMe ? 'me' : 'other');
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble ' + (isMe ? 'me' : 'other');
+      bubble.textContent = msg.message;
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = `${msg.name} ${msg.surname||''} • ${new Date(msg.timestamp).toLocaleTimeString()}`;
+      // style differences
+      if(isMe){
+        bubble.style.background = 'linear-gradient(90deg,#e3f2ff,#cfe8ff)';
+        bubble.style.color = '#053463';
+      } else {
+        bubble.style.background = 'linear-gradient(90deg,#fff7e6,#fff2d1)';
+        bubble.style.color = '#5a3b00';
+      }
+      row.appendChild(bubble);
+      row.appendChild(meta);
+      chatWindow.appendChild(row);
+    });
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }catch(e){ console.error(e) }
+}
+
+/* admin actions: mute/unmute/ban */
+async function runAdmin(action){
+  const target = adminTarget.value.trim();
+  if(!target){ alert('اكتب اسم ولقب الهدف'); return; }
+  // parse target (name + optional surname)
+  const parts = target.split(' ');
+  const body = {
+    admin: currentUser.name + (currentUser.surname ? ' ' + currentUser.surname : ''),
+    action,
+    target: { name: parts[0], surname: parts.slice(1).join(' ') },
+    type: parts.length>1 ? 'student' : 'teacher'
+  };
+  try{
+    const res = await fetch(`${SERVER_URL}/admin-action`, {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if(data.error) alert(data.error); else { alert('تم تنفيذ الأمر'); loadStudents(); }
+  }catch(e){ console.error(e); alert('خطأ في الاتصال') }
+}
+adminMute.addEventListener('click', ()=> runAdmin('mute'));
+adminUnmute.addEventListener('click', ()=> runAdmin('unmute'));
+adminBan.addEventListener('click', ()=> runAdmin('ban'));
+
 </script>
-
 </body>
 </html>
