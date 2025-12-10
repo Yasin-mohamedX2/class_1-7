@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>فصل أولى سابع</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل أولى سابع - ياسين</title>
 <style>
 :root{
   --primary:#6a11cb;
@@ -11,114 +11,176 @@
   --accent:#ffd873;
   --me-bg:#e8f0ff;
   --other-bg:#fff6ea;
+  --owner-bg:linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  --input-bg:#f0f0f0;
+  --shadow-light:rgba(0,0,0,0.2);
+  --shadow-mid:rgba(0,0,0,0.3);
+  --shadow-strong:rgba(0,0,0,0.4);
+  --chat-height:380px;
+  --font-color:#222;
+  --meta-color:#555;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Arial',sans-serif;}
 body{
-  font-family:Arial, sans-serif;
-  background:linear-gradient(120deg,var(--primary),var(--primary-dark));
   min-height:100vh;
-  color:#222;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding-bottom:80px;
+  color:var(--font-color);
+  padding-bottom:150px;
+  transition:0.5s all;
 }
+
 .card{
-  background:rgba(255,255,255,0.96);
+  background: rgba(255,255,255,0.95);
+  border-radius:16px;
+  padding:24px;
+  margin:22px 0;
   width:92%;
-  max-width:980px;
+  max-width:1020px;
+  box-shadow:
+    0 4px 8px var(--shadow-light),
+    0 8px 16px var(--shadow-mid),
+    0 12px 24px var(--shadow-strong);
+  transition:0.4s all;
+}
+
+#registerArea{max-width:500px;}
+#registerArea h2{text-align:center;margin-bottom:18px;font-size:1.7em;}
+label{display:block;margin:10px 0;font-weight:bold;}
+input, select, button, textarea{
+  width:100%;
+  padding:16px;
   border-radius:12px;
-  box-shadow:0 8px 30px rgba(0,0,0,0.2);
-  padding:18px;
-  margin:18px 0;
+  border:1px solid #bbb;
+  font-size:16px;
+  margin-bottom:16px;
+  transition:0.3s all;
 }
-#registerArea{max-width:420px}
-label{display:block;margin:6px 0;font-weight:bold}
-input, select, button{width:100%;padding:10px;border-radius:8px;border:1px solid #bbb;font-size:15px}
-button{background:var(--primary);color:#fff;border:none;cursor:pointer;font-weight:bold}
-button:hover{background:var(--primary-dark)}
-.small-link{text-align:center;margin-top:8px;color:var(--primary-dark);cursor:pointer;text-decoration:underline}
-#msg{color:#b00020;font-weight:bold;text-align:center;margin-top:8px}
-#dashboard{display:none}
-.dashboard-top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.profile{
-  display:flex;gap:12px;align-items:center;
+input:focus, textarea:focus, select:focus{outline:none;border-color:var(--primary);}
+textarea{height:140px;resize:none;background:var(--input-bg);}
+button{
+  background:var(--primary);
+  color:#fff;
+  border:none;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s all;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
-.avatar{
-  width:56px;height:56px;border-radius:50%;background:#ddd;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;color:#444;
-  overflow:hidden;border:2px solid rgba(0,0,0,0.06)
+button:hover{background:var(--primary-dark);transform:translateY(-2px);}
+.small-link{text-align:center;margin-top:10px;color:var(--primary-dark);cursor:pointer;text-decoration:underline;font-size:14px;}
+#msg{color:#b00020;font-weight:bold;text-align:center;margin-top:10px;}
+
+#dashboard{display:none;}
+.grid{display:grid;grid-template-columns:1fr 380px;gap:18px;margin-top:16px;}
+.students-list{max-height:460px;overflow:auto;padding:6px;}
+.student-item{
+  display:flex;align-items:center;gap:14px;
+  padding:12px;border-bottom:1px solid #f0f0f0;
+  border-radius:8px;transition:0.3s all;
+  position:relative;
 }
-.grid{
-  display:grid;
-  grid-template-columns:1fr 360px;
-  gap:18px;
-  margin-top:16px;
+.student-item:hover{background:rgba(200,200,200,0.1);}
+.student-item.banned{opacity:0.5;background:#ffebee;}
+.student-item.muted{background:#fff3e0;}
+.avatar{width:48px;height:48px;border-radius:50%;background:#ddd;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#444;overflow:hidden;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.chat-box{display:flex;flex-direction:column;gap:12px;transition:0.3s all;}
+#chatWindow{
+  flex:1;padding:14px;border-radius:16px;background:#fafafa;
+  border:1px solid #eee;overflow:auto;height:var(--chat-height);
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.12);
 }
-.chat-box{display:flex;flex-direction:column;height:420px}
-#chatWindow{flex:1;padding:12px;border-radius:8px;background:#fafafa;border:1px solid #eee;overflow:auto}
-.chat-row{display:flex;margin:8px 0;max-width:85%;}
-.chat-row.me{margin-left:auto;justify-content:flex-end}
-.bubble{
-  padding:10px 12px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.06);font-size:14px;word-break:break-word;
+.chat-row{display:flex;margin:8px 0;max-width:85%;transition:0.3s all;flex-direction:column;position:relative;}
+.chat-row.me{margin-left:auto;align-items:flex-end;}
+.bubble{padding:14px 18px;border-radius:16px;box-shadow:0 2px 6px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.08),0 6px 16px rgba(0,0,0,0.1);font-size:15px;word-break:break-word;position:relative;}
+.bubble.me{background:var(--me-bg);align-self:flex-end;border-top-right-radius:6px;}
+.bubble.other{background:var(--other-bg);align-self:flex-start;border-top-left-radius:6px;}
+.bubble.owner-bubble{background:var(--owner-bg);color:#fff;}
+.bubble .nickname{font-size:12px;color:#555;font-weight:bold;margin-bottom:4px;display:flex;align-items:center;gap:6px;background:rgba(200,200,200,0.15);padding:3px 8px;border-radius:8px;}
+.bubble.owner-bubble .nickname{color:#fff;background:rgba(255,255,255,0.2);}
+.owner-badge{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:bold;}
+.meta{font-size:12px;color:var(--meta-color);margin-top:6px;display:flex;align-items:center;gap:8px;}
+.delete-msg-btn{background:#ff4444;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;}
+.delete-msg-btn:hover{background:#cc0000;}
+#chatInputWrapper{display:flex;gap:8px;align-items:flex-end;}
+#chatInput{flex:1;height:100px;resize:none;background:var(--input-bg);padding:16px;border-radius:16px;box-shadow:inset 0 2px 8px rgba(0,0,0,0.12);}
+#sendBtn{width:100px;font-weight:bold;height:100px;border-radius:16px;}
+
+.admin-controls{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap;}
+.admin-btn{padding:6px 10px;font-size:11px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
+.admin-btn.mute{background:#ff9800;color:#fff;}
+.admin-btn.unmute{background:#4caf50;color:#fff;}
+.admin-btn.ban{background:#f44336;color:#fff;}
+.admin-btn.unban{background:#2196f3;color:#fff;}
+.admin-btn.role{background:#9c27b0;color:#fff;}
+
+.user-info{flex:1;}
+.user-name{font-weight:bold;display:flex;align-items:center;gap:6px;}
+.user-status{font-size:11px;color:#777;}
+.role-badge{font-size:10px;padding:2px 6px;border-radius:6px;background:#e0e0e0;}
+.role-badge.owner{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;}
+.role-badge.teacher{background:#4caf50;color:#fff;}
+.role-badge.student{background:#2196f3;color:#fff;}
+
+table{width:100%;border-collapse:collapse;margin-top:12px;}
+th,td{border:1px solid #e6e6e6;padding:14px;text-align:center;transition:0.3s all;}
+th{background:linear-gradient(90deg,var(--primary),var(--primary-dark));color:#fff;}
+
+footer{
+  position:fixed;bottom:0;left:0;right:0;
+  padding:16px 22px;
+  background:rgba(0,0,0,0.35);
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+  transition:0.3s all;
 }
-.bubble.me{background:var(--me-bg);align-self:flex-end;border-top-right-radius:4px}
-.bubble.other{background:var(--other-bg);align-self:flex-start;border-top-left-radius:4px}
-.meta{font-size:12px;color:#666;margin-top:6px}
-.typing-indicator{font-size:12px;color:#555;font-style:italic;margin:4px 0}
-.chat-controls{display:flex;gap:8px;margin-top:10px}
-.chat-controls input{flex:1}
-.students-list{max-height:420px;overflow:auto;padding:6px}
-.student-item{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid #f0f0f0}
-.student-item .name{font-weight:bold}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #e6e6e6;padding:8px;text-align:center}
-footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(0,0,0,0.35);color:#fff;display:flex;justify-content:space-between;font-weight:bold}
-@media(max-width:880px){.grid{grid-template-columns:1fr}}
+#logoutBtn{background:#ff4444;padding:8px 16px;border-radius:8px;cursor:pointer;border:none;color:#fff;font-weight:bold;}
+#logoutBtn:hover{background:#cc0000;}
+
+.welcome-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.welcome-header h2{margin:0;}
+
+@media(max-width:980px){.grid{grid-template-columns:1fr;}}
+@media(max-width:500px){#chatInputWrapper{flex-direction:column;}#sendBtn{width:100%;height:50px;}}
 </style>
 </head>
 <body>
 
 <div class="card" id="registerArea">
-  <h2 style="text-align:center;margin:6px 0">تسجيل حساب جديد</h2>
+  <h2 id="registerTitle">تسجيل حساب جديد</h2>
   <label for="name">الاسم</label>
-  <input id="name" placeholder="الاسم">
+  <input id="name" placeholder="مثال: ياسين محمد">
   <label for="surname">اللقب</label>
-  <input id="surname" placeholder="اللقب">
+  <input id="surname" placeholder="مثال: المنوفي">
   <label for="password">كلمة المرور</label>
-  <input id="password" type="password" placeholder="8 أحرف على الأقل + رمز">
-  <div style="display:flex;gap:8px;margin-top:10px">
-    <button id="actionBtn">تسجيل حساب جديد</button>
-  </div>
+  <input id="password" type="password" placeholder="8 أحرف على الأقل + رمز مثل @#$">
+  <button id="actionBtn">تسجيل حساب جديد</button>
   <div id="msg"></div>
   <div class="small-link" id="toggleLink">تسجيل دخول</div>
 </div>
 
 <div id="dashboard" class="card">
-  <div class="dashboard-top">
-    <div class="profile">
-      <div class="avatar" id="myAvatar">ص</div>
-      <div>
-        <div id="welcome" style="font-weight:bold"></div>
-      </div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:14px;color:#333;font-weight:bold">لوحة الفصل</div>
-      <div style="font-size:13px;color:#555">شات الطلاب، قائمة الطلاب، وجدول الحصص</div>
-    </div>
+  <div class="welcome-header">
+    <h2 id="welcomeText">مرحباً بك في الفصل</h2>
+    <button id="logoutBtn">تسجيل خروج</button>
   </div>
   <div class="grid">
     <div>
-      <div class="chat-box card" style="padding:14px">
-        <h3 style="margin:0 0 8px 0">شات الطلاب</h3>
-        <div id="chatWindow" style="background:#fff;padding:10px;border-radius:8px;border:1px solid #eee;height:300px;overflow:auto"></div>
-        <div class="typing-indicator" id="typingIndicator"></div>
-        <div class="chat-controls">
-          <input id="chatInput" placeholder="اكتب رسالة..." />
+      <div class="chat-box card" style="padding:18px">
+        <h3>شات الطلاب</h3>
+        <div id="chatWindow"></div>
+        <div id="chatInputWrapper">
+          <textarea id="chatInput" placeholder="اكتب رسالة..."></textarea>
           <button id="sendBtn">إرسال</button>
         </div>
       </div>
-      <div class="card" style="margin-top:12px">
-        <h3 style="margin:0 0 8px 0">جدول الفصل</h3>
+      <div class="card">
+        <h3>جدول الفصل</h3>
         <table>
           <thead><tr><th>اليوم</th><th>المادة</th></tr></thead>
           <tbody id="scheduleBody">
@@ -133,7 +195,7 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
     </div>
     <div>
       <div class="card">
-        <h3 style="margin:0 0 8px 0">قائمة طلاب الفصل</h3>
+        <h3>قائمة الأعضاء</h3>
         <div class="students-list" id="studentsList"></div>
       </div>
     </div>
@@ -141,7 +203,7 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
 </div>
 
 <footer>
-  <span>الجروب الرسمي لفصل 1/7 أولى سابع</span>
+  <span>فصل 1/7 أولى سابع</span>
   <span>تم إنشاؤه بواسطة ياسين محمد</span>
 </footer>
 
@@ -150,96 +212,366 @@ const nameEl=document.getElementById('name');
 const surnameEl=document.getElementById('surname');
 const passwordEl=document.getElementById('password');
 const actionBtn=document.getElementById('actionBtn');
-const msgEl=document.getElementById('msg');
 const toggleLink=document.getElementById('toggleLink');
+const msgEl=document.getElementById('msg');
 const registerArea=document.getElementById('registerArea');
 const dashboard=document.getElementById('dashboard');
 const chatWindow=document.getElementById('chatWindow');
 const chatInput=document.getElementById('chatInput');
 const sendBtn=document.getElementById('sendBtn');
 const studentsListDiv=document.getElementById('studentsList');
-const myAvatar=document.getElementById('myAvatar');
-const welcome=document.getElementById('welcome');
-const typingIndicator=document.getElementById('typingIndicator');
+const registerTitle=document.getElementById('registerTitle');
+const logoutBtn=document.getElementById('logoutBtn');
+const welcomeText=document.getElementById('welcomeText');
 
-let mode='register';
 let currentUser=null;
-let messages=[]; 
-let students=[];
+let authToken=null;
+let mode="register";
+let pollInterval=null;
 
-toggleLink.addEventListener('click', ()=>{
-  if(mode==='register'){
-    mode='login'; actionBtn.textContent='تسجيل الدخول'; toggleLink.textContent='إنشاء حساب جديد'; document.querySelector('#registerArea h2').textContent='تسجيل دخول';
-  } else {
-    mode='register'; actionBtn.textContent='تسجيل حساب جديد'; toggleLink.textContent='تسجيل دخول'; document.querySelector('#registerArea h2').textContent='تسجيل حساب جديد';
+function showMsg(txt,color="#b00020"){msgEl.textContent=txt;msgEl.style.color=color;}
+
+function saveSession(){
+  if(currentUser && authToken){
+    localStorage.setItem('chatSession', JSON.stringify({user: currentUser, token: authToken}));
   }
-  msgEl.textContent='';
-});
+}
 
-function showMsg(txt,color='#b00020'){ msgEl.textContent=txt; msgEl.style.color=color; }
+function loadSession(){
+  const saved = localStorage.getItem('chatSession');
+  if(saved){
+    const data = JSON.parse(saved);
+    currentUser = data.user;
+    authToken = data.token;
+    return true;
+  }
+  return false;
+}
 
-actionBtn.addEventListener('click', ()=>{
+function clearSession(){
+  localStorage.removeItem('chatSession');
+  currentUser = null;
+  authToken = null;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text || '';
+  return div.innerHTML;
+}
+
+async function loadUsers(){
+  try{
+    const res = await fetch('/students');
+    const data = await res.json();
+    studentsListDiv.innerHTML="";
+    
+    data.users.forEach(u=>{
+      if(u.is_banned && !currentUser.is_owner) return;
+      
+      const el=document.createElement('div');
+      el.className="student-item";
+      if(u.is_banned) el.classList.add('banned');
+      if(u.is_muted) el.classList.add('muted');
+      
+      const safeName = escapeHtml(u.name);
+      const safeSurname = escapeHtml(u.surname);
+      const safeAvatar = u.avatar ? escapeHtml(u.avatar) : null;
+      
+      let avatarHtml = safeAvatar 
+        ? `<div class="avatar"><img src="/uploads/${safeAvatar}"></div>`
+        : `<div class="avatar">${safeName ? safeName[0] : '؟'}</div>`;
+      
+      let roleBadge = '';
+      if(u.is_owner){
+        roleBadge = '<span class="role-badge owner">Owner</span>';
+      } else if(u.role === 'teacher'){
+        roleBadge = '<span class="role-badge teacher">مدرس</span>';
+      } else {
+        roleBadge = '<span class="role-badge student">طالب</span>';
+      }
+      
+      let statusText = '';
+      if(u.is_banned) statusText = '(محظور)';
+      else if(u.is_muted) statusText = '(ميوت)';
+      
+      let adminControls = '';
+      if(currentUser.is_owner && !u.is_owner){
+        const encodedName = encodeURIComponent(u.name);
+        const encodedSurname = encodeURIComponent(u.surname);
+        const safeRole = (u.role === 'student' || u.role === 'teacher') ? u.role : 'student';
+        adminControls = `
+          <div class="admin-controls">
+            ${u.is_muted 
+              ? `<button class="admin-btn unmute" data-name="${encodedName}" data-surname="${encodedSurname}" data-action="unmute">إلغاء ميوت</button>`
+              : `<button class="admin-btn mute" data-name="${encodedName}" data-surname="${encodedSurname}" data-action="mute">ميوت</button>`
+            }
+            ${u.is_banned 
+              ? `<button class="admin-btn unban" data-name="${encodedName}" data-surname="${encodedSurname}" data-action="unban">إلغاء حظر</button>`
+              : `<button class="admin-btn ban" data-name="${encodedName}" data-surname="${encodedSurname}" data-action="ban">حظر</button>`
+            }
+            <button class="admin-btn role" data-name="${encodedName}" data-surname="${encodedSurname}" data-role="${safeRole}" data-action="change_role">تغيير الدور</button>
+          </div>
+        `;
+      }
+      
+      el.innerHTML=`
+        ${avatarHtml}
+        <div class="user-info">
+          <div class="user-name">${safeName} ${safeSurname} ${roleBadge}</div>
+          <div class="user-status">${statusText}</div>
+          ${adminControls}
+        </div>
+      `;
+      
+      el.querySelectorAll('.admin-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const action = btn.dataset.action;
+          const name = decodeURIComponent(btn.dataset.name);
+          const surname = decodeURIComponent(btn.dataset.surname);
+          if(action === 'change_role') {
+            changeRole(name, surname, btn.dataset.role);
+          } else {
+            adminAction(action, name, surname);
+          }
+        });
+      });
+      studentsListDiv.appendChild(el);
+    });
+  }catch(e){
+    console.error('Error loading users:', e);
+  }
+}
+
+async function loadMessages(){
+  try{
+    const res = await fetch('/messages');
+    const messages = await res.json();
+    chatWindow.innerHTML="";
+    
+    messages.forEach(msg=>{
+      const row=document.createElement("div");
+      const isMe = msg.name === currentUser.name && msg.surname === currentUser.surname;
+      row.className="chat-row "+(isMe?"me":"other");
+      
+      const bubble=document.createElement("div");
+      bubble.className="bubble "+(isMe?"me":"other");
+      if(msg.is_owner) bubble.classList.add('owner-bubble');
+      
+      const nick=document.createElement("span");
+      nick.className="nickname";
+      nick.textContent = msg.surname || '';
+      if(msg.is_owner) {
+        const badge = document.createElement('span');
+        badge.className = 'owner-badge';
+        badge.textContent = 'Owner';
+        nick.appendChild(document.createTextNode(' '));
+        nick.appendChild(badge);
+      }
+      bubble.appendChild(nick);
+      
+      const text=document.createTextNode(msg.message);
+      bubble.appendChild(text);
+      
+      const meta=document.createElement("div");
+      meta.className="meta";
+      const time = msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString('ar-EG') : '';
+      const metaText = document.createTextNode(`${msg.name || ''} • ${time}`);
+      meta.appendChild(metaText);
+      
+      if(currentUser.is_owner){
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-msg-btn';
+        deleteBtn.textContent = 'حذف';
+        deleteBtn.onclick = () => deleteMessage(msg.id);
+        meta.appendChild(deleteBtn);
+      }
+      
+      row.appendChild(bubble);
+      row.appendChild(meta);
+      chatWindow.appendChild(row);
+    });
+    
+    chatWindow.scrollTop=chatWindow.scrollHeight;
+  }catch(e){
+    console.error('Error loading messages:', e);
+  }
+}
+
+async function sendMessage(){
+  const text=chatInput.value.trim();
+  if(!text)return;
+  
+  try{
+    const res = await fetch('/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        token: authToken,
+        message: text
+      })
+    });
+    const data = await res.json();
+    if(data.error){
+      alert(data.error);
+    } else {
+      chatInput.value="";
+      loadMessages();
+    }
+  }catch(e){
+    console.error('Error sending message:', e);
+  }
+}
+
+async function deleteMessage(msgId){
+  if(!confirm('هل تريد حذف هذه الرسالة؟')) return;
+  
+  try{
+    await fetch('/delete-message', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        token: authToken,
+        message_id: msgId
+      })
+    });
+    loadMessages();
+  }catch(e){
+    console.error('Error deleting message:', e);
+  }
+}
+
+async function adminAction(action, targetName, targetSurname){
+  try{
+    await fetch('/admin-action', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        token: authToken,
+        action: action,
+        target: {name: targetName, surname: targetSurname}
+      })
+    });
+    loadUsers();
+  }catch(e){
+    console.error('Error performing admin action:', e);
+  }
+}
+
+function changeRole(targetName, targetSurname, currentRole){
+  const newRole = currentRole === 'student' ? 'teacher' : 'student';
+  if(!confirm(`تغيير الدور إلى ${newRole === 'teacher' ? 'مدرس' : 'طالب'}؟`)) return;
+  
+  fetch('/admin-action', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      token: authToken,
+      action: 'change_role',
+      new_role: newRole,
+      target: {name: targetName, surname: targetSurname}
+    })
+  }).then(() => loadUsers());
+}
+
+function enterDashboard(){
+  registerArea.style.display="none";
+  dashboard.style.display="block";
+  
+  let welcomeMsg = `مرحباً ${currentUser.name}`;
+  if(currentUser.is_owner) welcomeMsg += ' (Owner)';
+  welcomeText.textContent = welcomeMsg;
+  
+  loadUsers();
+  loadMessages();
+  
+  if(pollInterval) clearInterval(pollInterval);
+  pollInterval = setInterval(()=>{
+    loadMessages();
+    loadUsers();
+  }, 3000);
+}
+
+async function handleAuth(){
   const name=nameEl.value.trim();
   const surname=surnameEl.value.trim();
   const password=passwordEl.value;
-  if(!name){ showMsg('اكتب الاسم'); return; }
-  if(!surname){ showMsg('اكتب اللقب'); return; }
-  if(!password || password.length<8){ showMsg('كلمة المرور 8 أحرف على الأقل'); return; }
-  if(mode==='register'){
-    currentUser={name,surname}; students.push(currentUser); showMsg('تم التسجيل!', '#0a7b00'); enterDashboard();
-  } else {
-    const user=students.find(s=>s.name===name && s.surname===surname);
-    if(!user){ showMsg('الحساب غير موجود'); return; }
-    currentUser=user; showMsg('تم تسجيل الدخول!', '#0a7b00'); enterDashboard();
+  
+  if(!name){showMsg("يجب إدخال الاسم");return;}
+  if(!surname){showMsg("يجب إدخال اللقب");return;}
+  if(!password || password.length<8 || !/[!@#$%^&*]/.test(password)){
+    showMsg("كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي رمز واحد");
+    return;
   }
+  
+  const endpoint = mode === "register" ? '/register' : '/login';
+  
+  try{
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name, surname, password})
+    });
+    const data = await res.json();
+    
+    if(data.error){
+      showMsg(data.error);
+      return;
+    }
+    
+    if(mode === "register"){
+      showMsg("تم التسجيل بنجاح! جاري تسجيل الدخول...", "#0a7b00");
+      mode = "login";
+      setTimeout(handleAuth, 500);
+    } else {
+      currentUser = data.user;
+      authToken = data.token;
+      saveSession();
+      showMsg("تم تسجيل الدخول!", "#0a7b00");
+      setTimeout(enterDashboard, 500);
+    }
+  }catch(e){
+    showMsg("حدث خطأ في الاتصال");
+    console.error(e);
+  }
+}
+
+actionBtn.addEventListener('click', handleAuth);
+
+toggleLink.addEventListener('click',()=>{
+  if(mode==="register"){
+    mode="login";
+    actionBtn.textContent="تسجيل الدخول";
+    toggleLink.textContent="إنشاء حساب جديد";
+    registerTitle.textContent="تسجيل دخول";
+  }else{
+    mode="register";
+    actionBtn.textContent="تسجيل حساب جديد";
+    toggleLink.textContent="تسجيل دخول";
+    registerTitle.textContent="تسجيل حساب جديد";
+  }
+  showMsg("");
 });
 
-function enterDashboard(){
-  registerArea.style.display='none';
-  dashboard.style.display='block';
-  welcome.textContent=`مرحباً، ${currentUser.name} ${currentUser.surname}`;
-  myAvatar.textContent=currentUser.name[0];
-  loadStudents();
-}
-
-function loadStudents(){
-  studentsListDiv.innerHTML='';
-  students.forEach(s=>{
-    const el=document.createElement('div'); el.className='student-item';
-    el.innerHTML=`<div style="display:flex;align-items:center;gap:10px">
-      <div class="avatar" style="width:44px;height:44px">${s.name[0]}</div>
-      <div><div class="name">${s.name} ${s.surname}</div></div></div>`;
-    studentsListDiv.appendChild(el);
-  });
-}
-
 sendBtn.addEventListener('click', sendMessage);
-chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendMessage(); else sendTyping(); });
 
-function sendTyping(){
-  typingIndicator.textContent=`${currentUser.name} يكتب...`;
-  clearTimeout(typingTimeout);
-  typingTimeout=setTimeout(()=>typingIndicator.textContent='',1000);
-}
+chatInput.addEventListener('keydown',e=>{
+  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}
+});
 
-function sendMessage(){
-  const text=chatInput.value.trim(); if(!text) return;
-  messages.push({name:currentUser.name,surname:currentUser.surname,message:text,time:new Date()});
-  chatInput.value='';
-  renderMessages();
-}
+logoutBtn.addEventListener('click', ()=>{
+  if(pollInterval) clearInterval(pollInterval);
+  clearSession();
+  dashboard.style.display="none";
+  registerArea.style.display="block";
+  nameEl.value = "";
+  surnameEl.value = "";
+  passwordEl.value = "";
+  showMsg("");
+});
 
-function renderMessages(){
-  chatWindow.innerHTML='';
-  messages.forEach(msg=>{
-    const row=document.createElement('div');
-    const isMe=msg.name===currentUser.name && msg.surname===currentUser.surname;
-    row.className='chat-row '+(isMe?'me':'other');
-    const bubble=document.createElement('div'); bubble.className='bubble '+(isMe?'me':'other'); bubble.textContent=msg.message;
-    const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`${msg.name} ${msg.surname} • ${msg.time.toLocaleTimeString()}`;
-    row.appendChild(bubble); row.appendChild(meta); chatWindow.appendChild(row);
-  });
-  chatWindow.scrollTop=chatWindow.scrollHeight;
+if(loadSession()){
+  enterDashboard();
 }
 </script>
 </body>
