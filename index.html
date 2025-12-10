@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>فصل اولى سابع من اعداد ياسين</title>
+<title>فصل أولى سابع</title>
 <style>
 :root{
   --primary:#6a11cb;
@@ -12,9 +12,8 @@
   --me-bg:#e8f0ff;
   --other-bg:#fff6ea;
 }
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  margin:0;
   font-family:Arial, sans-serif;
   background:linear-gradient(120deg,var(--primary),var(--primary-dark));
   min-height:100vh;
@@ -49,10 +48,9 @@ button:hover{background:var(--primary-dark)}
   width:56px;height:56px;border-radius:50%;background:#ddd;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;color:#444;
   overflow:hidden;border:2px solid rgba(0,0,0,0.06)
 }
-.upload-btn{margin-top:8px;padding:8px;border-radius:8px;background:var(--accent);border:none;cursor:pointer}
 .grid{
   display:grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns:1fr 360px;
   gap:18px;
   margin-top:16px;
 }
@@ -72,15 +70,9 @@ button:hover{background:var(--primary-dark)}
 .students-list{max-height:420px;overflow:auto;padding:6px}
 .student-item{display:flex;align-items:center;gap:8px;padding:8px;border-bottom:1px solid #f0f0f0}
 .student-item .name{font-weight:bold}
-.controls{display:flex;gap:6px}
-.ctrl-btn{padding:6px 8px;border-radius:6px;border:none;cursor:pointer;font-size:13px}
-.mute{background:#ffc107}
-.ban{background:#ff6b6b;color:#fff}
-.unmute{background:#7dd3fc}
 table{width:100%;border-collapse:collapse}
 th,td{border:1px solid #e6e6e6;padding:8px;text-align:center}
 footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(0,0,0,0.35);color:#fff;display:flex;justify-content:space-between;font-weight:bold}
-.hidden{display:none}
 @media(max-width:880px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -88,20 +80,14 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
 
 <div class="card" id="registerArea">
   <h2 style="text-align:center;margin:6px 0">تسجيل حساب جديد</h2>
-  <label for="role">الدور</label>
-  <select id="role">
-    <option value="student">طالب</option>
-    <option value="teacher">مدرس</option>
-  </select>
   <label for="name">الاسم</label>
   <input id="name" placeholder="الاسم">
-  <label id="surnameLabel" for="surname">اللقب</label>
+  <label for="surname">اللقب</label>
   <input id="surname" placeholder="اللقب">
   <label for="password">كلمة المرور</label>
   <input id="password" type="password" placeholder="8 أحرف على الأقل + رمز">
   <div style="display:flex;gap:8px;margin-top:10px">
     <button id="actionBtn">تسجيل حساب جديد</button>
-    <input id="avatarFile" type="file" accept="image/*" class="hidden">
   </div>
   <div id="msg"></div>
   <div class="small-link" id="toggleLink">تسجيل دخول</div>
@@ -113,16 +99,11 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
       <div class="avatar" id="myAvatar">ص</div>
       <div>
         <div id="welcome" style="font-weight:bold"></div>
-        <div style="font-size:13px;color:#666" id="roleLabel"></div>
-        <div>
-          <button class="upload-btn" id="changeAvatarBtn">تغيير الصورة</button>
-          <input type="file" id="avatarUpload" accept="image/*" class="hidden">
-        </div>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="font-size:14px;color:#333;font-weight:bold">لوحة تحكم الفصل</div>
-      <div style="font-size:13px;color:#555">شات، قائمة الطلاب، وجدول الحصص</div>
+      <div style="font-size:14px;color:#333;font-weight:bold">لوحة الفصل</div>
+      <div style="font-size:13px;color:#555">شات الطلاب، قائمة الطلاب، وجدول الحصص</div>
     </div>
   </div>
   <div class="grid">
@@ -155,19 +136,6 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
         <h3 style="margin:0 0 8px 0">قائمة طلاب الفصل</h3>
         <div class="students-list" id="studentsList"></div>
       </div>
-      <div class="card" style="margin-top:12px" id="adminPanel" class="hidden">
-        <h3 style="margin:0 0 8px 0">لوحة الأدمن (صاحب الموقع)</h3>
-        <div style="font-size:13px;color:#444">هنا تقدر تعمل ميوت أو حظر لأي مستخدم.</div>
-        <div style="margin-top:10px">
-          <label>اسم الهدف (للطالب: اكتب "الاسم اللقب")</label>
-          <input id="adminTarget" placeholder="مثال: محمد علي">
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="ctrl-btn mute" id="adminMute">ميوت</button>
-            <button class="ctrl-btn unmute" id="adminUnmute">فك الميوت</button>
-            <button class="ctrl-btn ban" id="adminBan">حظر</button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -178,268 +146,101 @@ footer{position:fixed;bottom:0;left:0;right:0;padding:10px 18px;background:rgba(
 </footer>
 
 <script>
-const SERVER_URL = "http://localhost:5000";
+const nameEl=document.getElementById('name');
+const surnameEl=document.getElementById('surname');
+const passwordEl=document.getElementById('password');
+const actionBtn=document.getElementById('actionBtn');
+const msgEl=document.getElementById('msg');
+const toggleLink=document.getElementById('toggleLink');
+const registerArea=document.getElementById('registerArea');
+const dashboard=document.getElementById('dashboard');
+const chatWindow=document.getElementById('chatWindow');
+const chatInput=document.getElementById('chatInput');
+const sendBtn=document.getElementById('sendBtn');
+const studentsListDiv=document.getElementById('studentsList');
+const myAvatar=document.getElementById('myAvatar');
+const welcome=document.getElementById('welcome');
+const typingIndicator=document.getElementById('typingIndicator');
 
-const roleEl = document.getElementById('role');
-const nameEl = document.getElementById('name');
-const surnameEl = document.getElementById('surname');
-const passwordEl = document.getElementById('password');
-const actionBtn = document.getElementById('actionBtn');
-const msgEl = document.getElementById('msg');
-const toggleLink = document.getElementById('toggleLink');
-
-const registerArea = document.getElementById('registerArea');
-const dashboard = document.getElementById('dashboard');
-const chatWindow = document.getElementById('chatWindow');
-const chatInput = document.getElementById('chatInput');
-const sendBtn = document.getElementById('sendBtn');
-const studentsListDiv = document.getElementById('studentsList');
-const myAvatar = document.getElementById('myAvatar');
-const welcome = document.getElementById('welcome');
-const roleLabel = document.getElementById('roleLabel');
-const adminPanel = document.getElementById('adminPanel');
-const adminTarget = document.getElementById('adminTarget');
-const adminMute = document.getElementById('adminMute');
-const adminUnmute = document.getElementById('adminUnmute');
-const adminBan = document.getElementById('adminBan');
-const avatarUpload = document.getElementById('avatarUpload');
-const changeAvatarBtn = document.getElementById('changeAvatarBtn');
-const typingIndicator = document.getElementById('typingIndicator');
-
-let mode = 'register';
-let currentUser = null;
-let typingTimeout;
+let mode='register';
+let currentUser=null;
+let messages=[]; 
+let students=[];
 
 toggleLink.addEventListener('click', ()=>{
   if(mode==='register'){
-    mode='login';
-    actionBtn.textContent='تسجيل الدخول';
-    toggleLink.textContent='إنشاء حساب جديد';
-    document.querySelector('#registerArea h2').textContent='تسجيل دخول';
+    mode='login'; actionBtn.textContent='تسجيل الدخول'; toggleLink.textContent='إنشاء حساب جديد'; document.querySelector('#registerArea h2').textContent='تسجيل دخول';
   } else {
-    mode='register';
-    actionBtn.textContent='تسجيل حساب جديد';
-    toggleLink.textContent='تسجيل دخول';
-    document.querySelector('#registerArea h2').textContent='تسجيل حساب جديد';
+    mode='register'; actionBtn.textContent='تسجيل حساب جديد'; toggleLink.textContent='تسجيل دخول'; document.querySelector('#registerArea h2').textContent='تسجيل حساب جديد';
   }
   msgEl.textContent='';
 });
 
-roleEl.addEventListener('change', ()=>{
-  if(roleEl.value==='teacher'){
-    surnameEl.style.display='none';
-    document.getElementById('surnameLabel').style.display='none';
-  } else {
-    surnameEl.style.display='block';
-    document.getElementById('surnameLabel').style.display='block';
-  }
-});
-
 function showMsg(txt,color='#b00020'){ msgEl.textContent=txt; msgEl.style.color=color; }
 
-async function loadStudents(){
-  try{
-    const res = await fetch(`${SERVER_URL}/students`);
-    const data = await res.json();
-    studentsListDiv.innerHTML='';
-    const all = (data.students||[]).concat((data.teachers||[]).map(t=>({name:t.name,surname:'',isTeacher:true})));
-    all.forEach(u=>{
-      const el=document.createElement('div');
-      el.className='student-item';
-      el.innerHTML=`
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="avatar" style="width:44px;height:44px">${(u.name||'')[0]||'ص'}</div>
-        <div><div class="name">${u.name} ${u.surname||''}</div></div>
-      </div>`;
-      studentsListDiv.appendChild(el);
-    });
-  }catch(err){ console.error(err); }
-}
-
-actionBtn.addEventListener('click', async ()=>{
-  const role=roleEl.value;
+actionBtn.addEventListener('click', ()=>{
   const name=nameEl.value.trim();
   const surname=surnameEl.value.trim();
   const password=passwordEl.value;
-
+  if(!name){ showMsg('اكتب الاسم'); return; }
+  if(!surname){ showMsg('اكتب اللقب'); return; }
+  if(!password || password.length<8){ showMsg('كلمة المرور 8 أحرف على الأقل'); return; }
   if(mode==='register'){
-    if(!name){ showMsg('يجب إدخال الاسم'); return; }
-    if(role==='student' && !surname){ showMsg('يجب إدخال اللقب'); return; }
-    if(!password || password.length<8 || !/[!@#$%^&*]/.test(password)){ showMsg('كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي رمز واحد'); return; }
-
-    try{
-      const res=await fetch(`${SERVER_URL}/register`,{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({role,name,surname,password})
-      });
-      const data=await res.json();
-      if(data.error){ showMsg(data.error); return; }
-      showMsg('تم التسجيل بنجاح! تسجيل دخول الآن...', '#0a7b00');
-      setTimeout(()=> loginAfterRegister(role,name,surname,password), 800);
-    }catch(e){ showMsg('خطأ في الاتصال بالسيرفر'); console.error(e) }
+    currentUser={name,surname}; students.push(currentUser); showMsg('تم التسجيل!', '#0a7b00'); enterDashboard();
   } else {
-    if(!name){ showMsg('يجب إدخال الاسم'); return; }
-    if(!password){ showMsg('يجب إدخال كلمة السر'); return; }
-    try{
-      const res=await fetch(`${SERVER_URL}/login`,{
-        method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({role,name,surname,password})
-      });
-      const data=await res.json();
-      if(data.error){ showMsg(data.error); return; }
-      currentUser={role,...data.user};
-      showMsg('تم تسجيل الدخول!', '#0a7b00');
-      enterDashboard();
-    }catch(e){ showMsg('خطأ في الاتصال بالسيرفر'); console.error(e) }
+    const user=students.find(s=>s.name===name && s.surname===surname);
+    if(!user){ showMsg('الحساب غير موجود'); return; }
+    currentUser=user; showMsg('تم تسجيل الدخول!', '#0a7b00'); enterDashboard();
   }
 });
 
-async function loginAfterRegister(role,name,surname,password){
-  try{
-    const res=await fetch(`${SERVER_URL}/login`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({role,name,surname,password})
-    });
-    const data=await res.json();
-    if(data.error){ showMsg('تم التسجيل لكن حدث خطأ في تسجيل الدخول: '+data.error); return; }
-    currentUser={role,...data.user};
-    enterDashboard();
-  }catch(e){ showMsg('خطأ في تسجيل الدخول التلقائي'); console.error(e) }
-}
-
-async function enterDashboard(){
+function enterDashboard(){
   registerArea.style.display='none';
   dashboard.style.display='block';
-  welcome.textContent=`مرحباً، ${currentUser.name} ${currentUser.surname||''}`;
-  roleLabel.textContent=currentUser.role==='student'?'طالب':'مدرس';
-
-  if(currentUser.avatar){
-    myAvatar.style.backgroundImage=`url(${SERVER_URL}/uploads/${currentUser.avatar})`;
-    myAvatar.style.backgroundSize='cover';
-    myAvatar.textContent='';
-  } else myAvatar.textContent=(currentUser.name||'ص')[0];
-
-  const ownerName="ياسين محمد محمد عبدالمجيد";
-  if(currentUser.name+(currentUser.surname?' '+currentUser.surname:'')===ownerName){
-    adminPanel.style.display='block';
-  } else adminPanel.style.display='none';
-
-  await loadStudents();
-  await loadMessages();
-  if(window._pollInterval) clearInterval(window._pollInterval);
-  window._pollInterval=setInterval(loadMessages,2500);
+  welcome.textContent=`مرحباً، ${currentUser.name} ${currentUser.surname}`;
+  myAvatar.textContent=currentUser.name[0];
+  loadStudents();
 }
 
-changeAvatarBtn.addEventListener('click',()=>avatarUpload.click());
-avatarUpload.addEventListener('change',async (e)=>{
-  const f=e.target.files[0]; if(!f) return;
-  const fd=new FormData();
-  fd.append('avatar',f);
-  fd.append('role',currentUser.role);
-  fd.append('name',currentUser.name);
-  fd.append('surname',currentUser.surname||'');
-  try{
-    const res=await fetch(`${SERVER_URL}/upload-avatar`,{method:'POST',body:fd});
-    const data=await res.json();
-    if(data.error){ alert(data.error); return; }
-    myAvatar.style.backgroundImage=`url(${SERVER_URL}/uploads/${data.avatar})`;
-    myAvatar.style.backgroundSize='cover';
-    myAvatar.textContent='';
-    currentUser.avatar=data.avatar;
-  }catch(e){ console.error(e); alert('خطأ في رفع الصورة') }
-});
-
-sendBtn.addEventListener('click', sendMessage);
-chatInput.addEventListener('keydown',(e)=>{ 
-  if(e.key==='Enter') sendMessage(); 
-  else sendTyping(); 
-});
-
-function sendTyping(){
-  fetch(`${SERVER_URL}/typing`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({name:currentUser.name,surname:currentUser.surname||''})
+function loadStudents(){
+  studentsListDiv.innerHTML='';
+  students.forEach(s=>{
+    const el=document.createElement('div'); el.className='student-item';
+    el.innerHTML=`<div style="display:flex;align-items:center;gap:10px">
+      <div class="avatar" style="width:44px;height:44px">${s.name[0]}</div>
+      <div><div class="name">${s.name} ${s.surname}</div></div></div>`;
+    studentsListDiv.appendChild(el);
   });
 }
 
-async function sendMessage(){
+sendBtn.addEventListener('click', sendMessage);
+chatInput.addEventListener('keydown', e=>{ if(e.key==='Enter') sendMessage(); else sendTyping(); });
+
+function sendTyping(){
+  typingIndicator.textContent=`${currentUser.name} يكتب...`;
+  clearTimeout(typingTimeout);
+  typingTimeout=setTimeout(()=>typingIndicator.textContent='',1000);
+}
+
+function sendMessage(){
   const text=chatInput.value.trim(); if(!text) return;
-  try{
-    const res=await fetch(`${SERVER_URL}/messages`,{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        role:currentUser.role,
-        name:currentUser.name,
-        surname:currentUser.surname||'',
-        message:text
-      })
-    });
-    const data=await res.json();
-    if(data.error){ alert(data.error); return; }
-    chatInput.value='';
-    await loadMessages();
-  }catch(e){ console.error(e); alert('خطأ في إرسال الرسالة') }
+  messages.push({name:currentUser.name,surname:currentUser.surname,message:text,time:new Date()});
+  chatInput.value='';
+  renderMessages();
 }
 
-async function loadMessages(){
-  try{
-    const res=await fetch(`${SERVER_URL}/messages`);
-    const arr=await res.json();
-    chatWindow.innerHTML='';
-    arr.forEach(msg=>{
-      const row=document.createElement('div');
-      const isMe=msg.name===currentUser.name&&(msg.surname||'')===(currentUser.surname||'');
-      row.className='chat-row '+(isMe?'me':'other');
-      const bubble=document.createElement('div');
-      bubble.className='bubble '+(isMe?'me':'other');
-      bubble.textContent=msg.message;
-      const meta=document.createElement('div');
-      meta.className='meta';
-      meta.textContent=`${msg.name} ${msg.surname||''} • ${new Date(msg.timestamp).toLocaleTimeString()}`;
-      if(isMe){
-        bubble.style.background='linear-gradient(90deg,#e3f2ff,#cfe8ff)';
-        bubble.style.color='#053463';
-      } else {
-        bubble.style.background='linear-gradient(90deg,#fff7e6,#fff2d1)';
-        bubble.style.color='#5a3b00';
-      }
-      row.appendChild(bubble);
-      row.appendChild(meta);
-      chatWindow.appendChild(row);
-    });
-    chatWindow.scrollTop=chatWindow.scrollHeight;
-
-    const res2=await fetch(`${SERVER_URL}/typing`);
-    const typingUsers=await res2.json();
-    const othersTyping=typingUsers.filter(u=>!(u.name===currentUser.name && (u.surname||'')===(currentUser.surname||'')));
-    if(othersTyping.length>0){
-      typingIndicator.textContent=othersTyping.map(u=>u.name).join(', ')+' يكتب...';
-    } else typingIndicator.textContent='';
-  }catch(e){ console.error(e) }
+function renderMessages(){
+  chatWindow.innerHTML='';
+  messages.forEach(msg=>{
+    const row=document.createElement('div');
+    const isMe=msg.name===currentUser.name && msg.surname===currentUser.surname;
+    row.className='chat-row '+(isMe?'me':'other');
+    const bubble=document.createElement('div'); bubble.className='bubble '+(isMe?'me':'other'); bubble.textContent=msg.message;
+    const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`${msg.name} ${msg.surname} • ${msg.time.toLocaleTimeString()}`;
+    row.appendChild(bubble); row.appendChild(meta); chatWindow.appendChild(row);
+  });
+  chatWindow.scrollTop=chatWindow.scrollHeight;
 }
-
-async function runAdmin(action){
-  const target=adminTarget.value.trim();
-  if(!target){ alert('اكتب اسم ولقب الهدف'); return; }
-  const parts=target.split(' ');
-  const body={
-    admin: currentUser.name+(currentUser.surname?' '+currentUser.surname:''),
-    action,
-    target:{name:parts[0],surname:parts.slice(1).join('')},
-    type: parts.length>1?'student':'teacher'
-  };
-  try{
-    const res=await fetch(`${SERVER_URL}/admin-action`,{
-      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
-    });
-    const data=await res.json();
-    if(data.error) alert(data.error); else { alert('تم تنفيذ الأمر'); loadStudents(); }
-  }catch(e){ console.error(e); alert('خطأ في الاتصال') }
-}
-adminMute.addEventListener('click',()=>runAdmin('mute'));
-adminUnmute.addEventListener('click',()=>runAdmin('unmute'));
-adminBan.addEventListener('click',()=>runAdmin('ban'));
 </script>
 </body>
 </html>
